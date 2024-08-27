@@ -6,10 +6,11 @@ from transformers import CLIPModel, CLIPProcessor, CLIPTokenizerFast
 
 from gallery import ImageGallery
 
-prompt = "a photo of a harp in a museum"
+prompt = "blue shirt boy walking in the port"
 image_gallery_path = r"img"
 model_name = "openai/clip-vit-large-patch14"
 device = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"Using {device} device")
 
 
 class SmartGalleryAgent():
@@ -26,7 +27,7 @@ class SmartGalleryAgent():
 
     def load_model(self, model_name):
         """Load the CLIP model"""
-        model = CLIPModel.from_pretrained(model_name).to(device)
+        model = CLIPModel.from_pretrained(model_name, local_files_only=True).to(device)
         tokenizer = CLIPTokenizerFast.from_pretrained(model_name)
         processor = CLIPProcessor.from_pretrained(model_name)
         return model, tokenizer, processor
@@ -57,7 +58,6 @@ if __name__ == "__main__":
     agent = SmartGalleryAgent(model_name, img_folder_path)
     # Tokenize the prompt
     text_emb = agent.text_features
-    print(text_emb)
     # Get the image features
     image = agent.image_features
     scores = [np.dot(text_emb, img_feat) for img_feat in agent.image_features]
