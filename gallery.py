@@ -2,6 +2,8 @@ import os
 
 from PIL import Image
 
+IMG_EXTENSIONS = (".jpg", ".jpeg", ".png", ".bmp", ".gif", ".webp")
+
 
 class ImageGallery:
     def __init__(self, img_folder_path):
@@ -10,9 +12,9 @@ class ImageGallery:
         self.load_imgs()
 
     def load_imgs(self):
-        for img_name in os.listdir(self.img_folder_path):
-            img_path = os.path.join(self.img_folder_path, img_name)
-            self.imgs.append(img_path)
+        for img_name in sorted(os.listdir(self.img_folder_path)):
+            if img_name.lower().endswith(IMG_EXTENSIONS):
+                self.imgs.append(os.path.join(self.img_folder_path, img_name))
 
     def show_imgs(self):
         for img in self.imgs:
@@ -21,7 +23,7 @@ class ImageGallery:
 
 
 if __name__ == "__main__":
-    IMG_FOLDER_PATH = 'test'
+    IMG_FOLDER_PATH = 'img'
 
     gallery = ImageGallery(IMG_FOLDER_PATH)
     print(gallery.imgs)
