@@ -27,14 +27,5 @@ python agent.py "dogs playing in the snow" --top-k 3
 
 See [SETUP.md](SETUP.md) for GPU, caching the model weights, options and tests.
 
-## Plan 
-- Class I/O 
-    - Config parser
-    - Initializer
-    - Inference
-    - Serialization and return
-- Image transformation
-    - Image format
-    - Transformations
-- Logger class
-- Config class
+## Roadmap
+See [TODO.md](TODO.md).
