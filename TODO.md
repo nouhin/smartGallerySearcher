@@ -15,5 +15,4 @@
 - [ ] Config class to hold and validate the settings
 
 ## Model
-- [ ] Remove or update `config.json`, it holds training settings for a custom CLIP that is not used anymore
 - [ ] Fine-tune or train a CLIP and compare with the baseline
