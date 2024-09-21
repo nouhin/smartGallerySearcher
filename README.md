@@ -25,7 +25,11 @@ python agent.py "dogs playing in the snow" --top-k 3
 
 `img/` has 50 demo photos from Flickr8k. Pass `--gallery` to search your own folder.
 
-See [SETUP.md](SETUP.md) for GPU, caching the model weights, options and tests.
+## Input and output
+- **Input**: a text prompt and a folder of images. The model, gallery, top-k and device come from [settings.json](settings.json), and can be overridden with `--config` or command line arguments.
+- **Output**: the best matches with their similarity score, as plain text or as JSON with `--json`.
+
+See [SETUP.md](SETUP.md) for GPU, caching the model weights, all options and tests.
 
 ## Roadmap
 See [TODO.md](TODO.md).

@@ -3,8 +3,8 @@
 ## Core
 - [x] Load the model and the gallery once, embed all images at startup
 - [x] Search: embed the prompt and rank images by cosine similarity
-- [ ] Load settings (model, gallery path, top-k, device) from a config file instead of hardcoded values
-- [ ] Return results in a structured format (JSON) so the search can be used from other tools or an API
+- [x] Load settings (model, gallery path, top-k, device) from a config file instead of hardcoded values
+- [x] Return results in a structured format (JSON) so the search can be used from other tools or an API
 
 ## Images
 - [x] Skip non-image files and convert images to RGB

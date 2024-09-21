@@ -25,13 +25,6 @@ docker run --rm --gpus all \
 - To search your own photos, add `-v /path/to/photos:/app/img`.
 - Drop `--gpus all` to run on CPU, it is slower but works the same.
 
-Output is one line per match, best first:
-
-```
-0.254  img/flickr_000.jpg
-0.166  img/flickr_008.jpg
-```
-
 Some prompts to try, none of them copied from the captions:
 
 | Prompt                         | Best match       | Caption                                                     |
@@ -51,15 +44,61 @@ pip install -r requirements.txt
 python agent.py "blue shirt boy walking in the port" --gallery img --top-k 3
 ```
 
-## Options
+## Input and output
 
-| Argument    | Default                               | Description                  |
-|-------------|---------------------------------------|------------------------------|
-| `prompt`    | `blue shirt boy walking in the port`  | Text describing the image    |
-| `--gallery` | `img`                                 | Folder of images to search   |
-| `--top-k`   | `1`                                   | Number of results to print   |
+### Input
 
-Supported formats: jpg, jpeg, png, bmp, gif, webp. Other files in the folder are ignored.
+- **Prompt**: the text describing the image, first argument.
+- **Gallery**: a folder of images. Supported formats: jpg, jpeg, png, bmp, gif, webp, other files are ignored.
+- **Settings**: the model, gallery, top-k and device are read from [settings.json](settings.json).
+
+`device` is `auto` (GPU if available), `cuda` or `cpu`. To change settings without editing this file,
+pass your own file with `--config`, it only needs the keys it changes:
+
+```bash
+echo '{"top_k": 5, "device": "cpu"}' > my_settings.json
+python agent.py "dogs playing in the snow" --config my_settings.json
+```
+
+With Docker, mount it into the container: `-v $PWD/my_settings.json:/app/my_settings.json ... --config my_settings.json`.
+
+Priority, lowest to highest: `settings.json`, `--config` file, command line arguments.
+
+| Argument    | Default                               | Description                          |
+|-------------|---------------------------------------|--------------------------------------|
+| `prompt`    | `blue shirt boy walking in the port`  | Text describing the image            |
+| `--gallery` | from settings                         | Folder of images to search           |
+| `--top-k`   | from settings                         | Number of results                    |
+| `--config`  |                                       | JSON file overriding `settings.json` |
+| `--json`    | off                                   | Print the results as JSON            |
+
+### Output
+
+Results are printed to stdout, best match first. By default one line per match, score then path:
+
+```
+0.254  img/flickr_000.jpg
+0.166  img/flickr_008.jpg
+```
+
+With `--json`:
+
+```json
+{
+  "prompt": "dogs playing in the snow",
+  "results": [
+    {"path": "img/flickr_000.jpg", "score": 0.2541517913341522},
+    {"path": "img/flickr_008.jpg", "score": 0.16629520058631897}
+  ]
+}
+```
+
+The score is the cosine similarity between the prompt and the image, higher is closer.
+Logs and progress bars go to stderr, so the output can be piped directly, for example:
+
+```bash
+python agent.py "dogs playing in the snow" --top-k 3 --json | jq -r '.results[].path'
+```
 
 ## Tests
 

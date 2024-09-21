@@ -1,0 +1,6 @@
+{
+    "model_name": "openai/clip-vit-large-patch14",
+    "gallery": "img",
+    "top_k": 1,
+    "device": "auto"
+}
