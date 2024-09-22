@@ -101,7 +101,13 @@ if __name__ == "__main__":
     parser.add_argument("--gallery")
     parser.add_argument("--top-k", type=int)
     parser.add_argument("--json", action="store_true", help="print the results as json")
+    parser.add_argument("--show", action="store_true", help="open the results in a window, arrows to browse")
     args = parser.parse_args()
+
+    if args.show:
+        from viewer import ResultViewer, can_show
+        if not can_show():
+            parser.error("--show needs a display and a GUI backend for matplotlib, e.g. install python3-tk")
 
     config = load_config(args.config, gallery=args.gallery, top_k=args.top_k)
     device = resolve_device(config["device"])
@@ -114,3 +120,5 @@ if __name__ == "__main__":
     else:
         for img_path, score in results:
             print(f"{score:.3f}  {img_path}")
+    if args.show:
+        ResultViewer(args.prompt, results).show()

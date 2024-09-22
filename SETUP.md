@@ -71,6 +71,7 @@ Priority, lowest to highest: `settings.json`, `--config` file, command line argu
 | `--top-k`   | from settings                         | Number of results                    |
 | `--config`  |                                       | JSON file overriding `settings.json` |
 | `--json`    | off                                   | Print the results as JSON            |
+| `--show`    | off                                   | Open the results in a window         |
 
 ### Output
 
@@ -99,6 +100,22 @@ Logs and progress bars go to stderr, so the output can be piped directly, for ex
 ```bash
 python agent.py "dogs playing in the snow" --top-k 3 --json | jq -r '.results[].path'
 ```
+
+### Browse the results in a window
+
+With `--show`, the results also open in one window, best match first:
+
+```bash
+python agent.py "dogs playing in the snow" --top-k 5 --show
+```
+
+![--show window](docs/show.png)
+
+Use the left and right arrows to browse the results and `q` to close. The toolbar at the bottom can zoom
+into the image or save it.
+
+This needs a display and Tk for matplotlib, on Ubuntu `sudo apt install python3-tk`. Run it from a normal
+terminal so sudo can ask for the password. It does not work inside the Docker container, since it has no display.
 
 ## Tests
 

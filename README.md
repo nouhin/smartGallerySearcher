@@ -27,7 +27,22 @@ python agent.py "dogs playing in the snow" --top-k 3
 
 ## Input and output
 - **Input**: a text prompt and a folder of images. The model, gallery, top-k and device come from [settings.json](settings.json), and can be overridden with `--config` or command line arguments.
-- **Output**: the best matches with their similarity score, as plain text or as JSON with `--json`.
+- **Output**: the best matches with their similarity score, as plain text or as JSON with `--json`. Add `--show` to browse the images in a window:
+
+```bash
+python agent.py "dogs playing in the snow" --top-k 5 --show
+```
+```
+0.254  img/flickr_000.jpg
+0.166  img/flickr_008.jpg
+0.165  img/flickr_037.jpg
+0.159  img/flickr_018.jpg
+0.158  img/flickr_016.jpg
+```
+
+The window opens on the best match, left and right arrows go through the 5 results:
+
+![--show window](docs/show.png)
 
 See [SETUP.md](SETUP.md) for GPU, caching the model weights, all options and tests.
 

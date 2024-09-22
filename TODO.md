@@ -5,6 +5,7 @@
 - [x] Search: embed the prompt and rank images by cosine similarity
 - [x] Load settings (model, gallery path, top-k, device) from a config file instead of hardcoded values
 - [x] Return results in a structured format (JSON) so the search can be used from other tools or an API
+- [x] Browse the result images in a window (`--show`)
 
 ## Images
 - [x] Skip non-image files and convert images to RGB
